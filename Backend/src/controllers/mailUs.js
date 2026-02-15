@@ -23,7 +23,7 @@ export const sendQueryMail = async (req, res) => {
         <p><b>Email:</b> ${email}</p>
         <p><b>Message:</b> ${message}</p>
       `
-    });
+    }); 
 
     res.status(200).json({ success: true });
   } catch (err) {
