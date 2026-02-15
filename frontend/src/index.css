@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* 🌊 FLOATING CODE CHUNKS */
+/* 🌊 FLOATING CODE CHUNKS (THEME MATCHED) */
+/* ✨ FLOATING CODE — NO BACKGROUND BOX */
+.code-chunk {
+  position: absolute;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 15px;
+  line-height: 24px;
+
+  /* ❌ REMOVE card styling */
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: none;
+   
+  /* ✅ keep theme text color */
+  color: hsl(var(--bc) / 0.7);
+
+  opacity: 0.9;      /* subtle background feel */
+  pointer-events: none;
+
+  animation: floatCodeChunk linear infinite;
+}
+
+.code-chunk code {
+  text-shadow:
+    0 0 10px rgba(190,166,14,0.45),
+    0 0 20px rgba(190,166,14,0.25),
+    0 0 40px rgba(190,166,14,0.15);
+}
+/* ✨ floating animation */
+@keyframes floatCodeChunk {
+  0% {
+    transform: translateY(40px) translateX(0px);
+    opacity: 0;
+  }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% {
+    transform: translateY(-120vh) translateX(40px);
+    opacity: 0;
+  }
+}
+
+/* 🟡 LOGO-THEMED SYNTAX COLORS */
+.code-key {
+  color:#bea60e; /* main logo yellow */
+}
+
+.code-fn {
+  color: hsl(var(--bc) / 0.9); /* text color */
+}
+
+.code-var {
+  color: hsl(var(--bc) / 0.6); /* soft gray */
+}
+
+.code-str {
+  color: #fde68a; /* light gold */
+}
+
+/* 🌊 floating hero card */
+@keyframes floatSlow {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
