@@ -384,7 +384,7 @@ const ProblemPage = () => {
                   onMount={handleEditorDidMount}
                   theme="vs-dark"
                   options={{
-                    fontSize: 16,
+                    fontSize: 18,
                     minimap: { enabled: false },
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
