@@ -12,7 +12,7 @@ export const sendQueryMail = async (req, res) => {
         pass: process.env.EMAIL_PASS    
       }
     });
-
+ 
     await transporter.sendMail({
       from: `"Coding Zone Query" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER, // email where you want queries

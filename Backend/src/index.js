@@ -25,7 +25,7 @@ app.use(cors({
     credentials: true 
 }))
 
-
+ 
 const Intialization = async () => { 
     try{
         await Promise.all([main(),client.connect()]);
@@ -48,6 +48,10 @@ app.use('/submission',submitRouter);
 app.use('/ai',aiRouter); 
 app.use("/video",videoRouter);  
 app.use("/contact", mailUsRoute);
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', message: 'Server is healthy' });
+});
 
 app.get('/', (req, res) => {
     res.send('API is running...');

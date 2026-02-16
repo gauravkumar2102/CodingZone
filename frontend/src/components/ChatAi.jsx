@@ -27,8 +27,6 @@ function ChatAi({ problem }) {
     }, [messages]);
 
     const onSubmit = async (data) => {
-
-        // setMessages(prev => [...prev, { role: 'user', parts:[{text: data.message}] }]);
          const updatedMessages = [
         ...messages,
         { role: "user", parts: [{ text: data.message }] }

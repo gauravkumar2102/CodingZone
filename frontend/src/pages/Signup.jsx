@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, NavLink } from 'react-router';
 import { registerUser } from '../authSlice';
+import { Codesandbox } from 'lucide-react';
+import { Link } from 'react-router';
 
 const signupSchema = z.object({
   firstname: z.string().min(3, "Minimum character should be 3"),
@@ -51,10 +53,34 @@ function Signup() {
   };
 
   return (
+    <div>
+       <div className="navbar px-10 sticky top-0 bg-gray-600/50 backdrop-blur-md border-b border-base-300/30 relative z-10">
+              <div className="flex-1 text-xl font-bold flex items-center gap-2">
+                <Codesandbox size={38} color="#bea60e" /> Coding Zone
+              </div>
+      
+              <div className="flex gap-3">
+                <Link to="/about" className="btn btn-ghost btn-sm">
+                  About
+                </Link>
+      
+                <Link to="/login" className="btn btn-ghost btn-sm">
+                  Login
+                </Link>
+      
+                <Link
+                  to="/signup"
+                  className="btn bg-yellow-600/90 text-black border-none btn-sm shadow-lg hover:scale-105 transition"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </div>
+
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added a light bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 for spacing */}
+          <h2 className="card-title justify-center text-3xl mb-6 text-yellow-600/90">Coding Zone</h2> {/* Added mb-6 for spacing */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* First Name Field */}
             <div className="form-control">
@@ -162,6 +188,7 @@ function Signup() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

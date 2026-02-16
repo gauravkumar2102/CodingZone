@@ -5,7 +5,7 @@ function Landing() {
   return (
     <div className="relative min-h-screen bg-base-200/60 text-base-content overflow-hidden">
 
-      {/* 💻 FLOATING CODE BACKGROUND */}
+      {/* FLOATING CODE BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none z-[1]">
 
         {/* Code Chunk 1 */}

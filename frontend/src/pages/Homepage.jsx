@@ -42,7 +42,7 @@ function Homepage() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    setSolvedProblems([]); // Clear solved problems on logout
+    setSolvedProblems([]); 
   };
 
   const filteredProblems = problems.filter(problem => {
@@ -58,7 +58,7 @@ function Homepage() {
       {/* Navigation Bar */}
       <nav className="navbar bg-gray-600/50 sticky top-0 backdrop-blur-md border-b border-base-300/30 shadow-lg px-4 relative z-50 ">
         <div className="flex-1">
-          <NavLink to="/" className="btn btn-ghost text-2xl"><Codesandbox size={38} color="#bea60e" />Coding Zone</NavLink>
+          <NavLink to="/" className="btn btn-ghost text-xl font-bold "><Codesandbox size={38} color="#bea60e" />Coding Zone</NavLink>
         </div>
         <div className="flex-none gap-4 ">
           <div className="dropdown dropdown-end">

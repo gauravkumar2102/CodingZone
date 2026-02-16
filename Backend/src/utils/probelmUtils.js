@@ -11,6 +11,29 @@ export const getLanguageById = (lang) => {
 };
 
 
+// ================= BASE64 ENCODE/DECODE FUNCTIONS =================
+const btoa = (str) => {
+  if (!str) return Buffer.from("").toString('base64');
+  
+ 
+  const normalized = str
+    .replace(/\r\n/g, '\n')  
+    .replace(/\r/g, '\n');  
+  
+  return Buffer.from(normalized).toString('base64');
+};
+
+const atob = (b64) => {
+  if (!b64) return null;
+  try {
+    return Buffer.from(b64, 'base64').toString('utf-8');
+  } catch (error) {
+    console.error("Base64 decode error:", error);
+    return null;
+  }
+};
+
+
 // ================= WAIT FUNCTION =================
 const waiting = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -21,17 +44,25 @@ const waiting = (ms) => {
 // ================= SUBMIT BATCH =================
 export const SubmitBatch = async (submissions) => {
 
+  // Encode all text fields to base64
+  const encodedSubmissions = submissions.map(sub => ({
+    source_code: btoa(sub.source_code),
+    language_id: sub.language_id,
+    stdin: btoa(sub.stdin || ""),
+    expected_output: btoa(sub.expected_output || "")
+  }));
+
   const options = {
     method: "POST",
     url: "https://judge029.p.rapidapi.com/submissions/batch",
     timeout: 15000,
-    params: { base64_encoded: "false" },
+    params: { base64_encoded: "true" },
     headers: {
       "x-rapidapi-key": process.env.RAPID_API_KEY,
       "x-rapidapi-host": "judge029.p.rapidapi.com",
       "Content-Type": "application/json",
     },
-    data: { submissions },
+    data: { submissions: encodedSubmissions },
   };
 
   try {
@@ -65,7 +96,7 @@ export const submitToken = async (tokens) => {
     timeout: 15000,
     params: {
       tokens: tokens.join(","),
-      base64_encoded: "false",
+      base64_encoded: "true",  // Judge0 returns base64
       fields: "*",
     },
     headers: {
@@ -75,7 +106,7 @@ export const submitToken = async (tokens) => {
   };
 
   let attempts = 0;
-  const MAX_ATTEMPTS =15;  
+  const MAX_ATTEMPTS = 15;  
 
   while (attempts < MAX_ATTEMPTS) {
 
@@ -92,7 +123,17 @@ export const submitToken = async (tokens) => {
       );
 
       if (isResultObtained) {
-        return result.submissions;
+        // Decode ALL base64 fields to readable strings
+        const decodedSubmissions = result.submissions.map(sub => ({
+          ...sub,
+          stdout: sub.stdout ? atob(sub.stdout) : null,
+          stderr: sub.stderr ? atob(sub.stderr) : null,
+          compile_output: sub.compile_output ? atob(sub.compile_output) : null,
+          message: sub.message ? atob(sub.message) : null,
+          stdin: sub.stdin ? atob(sub.stdin) : null,
+          expected_output: sub.expected_output ? atob(sub.expected_output) : null,
+        }));
+        return decodedSubmissions;
       }
 
     } catch (error) {

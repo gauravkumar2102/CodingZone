@@ -5,10 +5,11 @@ import axiosClient from "../utils/axiosClient";
 import { logoutUser } from "../authSlice";
 import { Codesandbox, CircleUser } from "lucide-react";
 
+
 function ProfilePage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
+  
   const [solvedProblems, setSolvedProblems] = useState([]);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ function ProfilePage() {
       {/* Navbar (Same as Homepage) */}
       <nav className="navbar bg-gray-600/50 sticky top-0 backdrop-blur-md border-b border-base-300/30 shadow-lg px-4 z-50">
         <div className="flex-1">
-          <NavLink to="/" className="btn btn-ghost text-2xl">
+          <NavLink to="/" className="btn btn-ghost text-xl font-bold">
             <Codesandbox size={38} color="#bea60e" />
             Coding Zone
           </NavLink>

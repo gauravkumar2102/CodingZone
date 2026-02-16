@@ -1,22 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import Editor from '@monaco-editor/react';
-import { useParams,NavLink } from 'react-router';
+import { useParams, NavLink } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import SubmissionHistory from "../components/SubmissionHistory"
 import ChatAi from '../components/ChatAi';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import Editorial from '../components/Editorial';
 import { CircleUser } from 'lucide-react';
-import {useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
- 
+
 
 const langMap = {
-        cpp: 'C++',
-        java: 'Java',
-        javascript: 'JavaScript'
+  cpp: 'C++',
+  java: 'Java',
+  javascript: 'JavaScript'
 };
 
 
@@ -30,25 +30,26 @@ const ProblemPage = () => {
   const [activeLeftTab, setActiveLeftTab] = useState('description');
   const [activeRightTab, setActiveRightTab] = useState('code');
   const editorRef = useRef(null);
-  let {problemId}  = useParams();
+  let { problemId } = useParams();
 
   const { handleSubmit } = useForm();
   const { user } = useSelector((state) => state.auth);
- useEffect(() => {
+  const dispatch = useDispatch(); 
+  useEffect(() => {
     const fetchProblem = async () => {
       setLoading(true);
       try {
-        
+
         const response = await axiosClient.get(`/problem/problemById/${problemId}`);
-       
-        
+
+
         const initialCode = response.data.startCode.find(sc => sc.language === langMap[selectedLanguage]).initialCode;
 
         setProblem(response.data);
-        
+
         setCode(initialCode);
         setLoading(false);
-        
+
       } catch (error) {
         console.error('Error fetching problem:', error);
         setLoading(false);
@@ -67,8 +68,8 @@ const ProblemPage = () => {
   }, [selectedLanguage, problem]);
 
   const handleLogout = () => {
-      dispatch(logoutUser());
-    };
+    dispatch(logoutUser());
+  };
 
   const handleEditorChange = (value) => {
     setCode(value || '');
@@ -82,54 +83,75 @@ const ProblemPage = () => {
     setSelectedLanguage(language);
   };
 
-  
+  // Add this NEW function after handleLanguageChange
+  const cleanCode = (codeValue) => {
+    if (!codeValue) return '';
+
+    // Normalize line endings and trim
+    return codeValue
+      .replace(/\r\n/g, '\n')  
+      .replace(/\r/g, '\n')    
+      .trim();                 
+  };
 
   const handleRun = async () => {
     setLoading(true);
     setRunResult(null);
-    console.log("Run code called",selectedLanguage);
+
     try {
+      const cleanedCode = cleanCode(code);
       const response = await axiosClient.post(`/submission/run/${problemId}`, {
-        code: code,
+        code: cleanedCode,
         language: selectedLanguage
       });
 
       setRunResult(response.data);
       setLoading(false);
       setActiveRightTab('testcase');
-      
+
     } catch (error) {
-      console.error('Error running code:', error);
       setRunResult({
         success: false,
-        error: 'Internal server error'
+        errorMessage: 'Internal server error'
       });
       setLoading(false);
       setActiveRightTab('testcase');
     }
   };
 
-  const handleSubmitCode = async () => {
-    setLoading(true);
-    setSubmitResult(null);
-    
-    try {
-        const response = await axiosClient.post(`/submission/submit/${problemId}`, {
-        code: code,
-        language: selectedLanguage
-      });
 
-       setSubmitResult(response.data);
-       setLoading(false);
-       setActiveRightTab('result');
-      
-    } catch (error) {
-      console.error('Error submitting code:', error);
-      setSubmitResult(null);
-      setLoading(false);
-      setActiveRightTab('result');
-    }
-  };
+
+  const handleSubmitCode = async () => {
+  setLoading(true);
+  setSubmitResult(null);
+  
+  try {
+    const cleanedCode = cleanCode(code);
+    const response = await axiosClient.post(`/submission/submit/${problemId}`, {
+      code: cleanedCode,
+      language: selectedLanguage
+    });
+
+    // Response is already clean JSON
+    setSubmitResult(response.data);
+    setLoading(false);
+    setActiveRightTab('result');
+    
+  } catch (error) {
+    console.error('Error submitting code:', error);
+    
+    // Handle error properly
+    setSubmitResult({
+      accepted: false,
+      passedTestCases: 0,
+      totalTestCases: 0,
+      errorMessage: error.response?.data?.errorMessage || error.message || "Submission failed"
+    });
+    
+    setLoading(false);
+    setActiveRightTab('result');
+  }
+};
 
   const getLanguageForMonaco = (lang) => {
     switch (lang) {
@@ -163,32 +185,32 @@ const ProblemPage = () => {
       <div className="w-1/2 flex flex-col border-r border-base-300">
         {/* Left Tabs */}
         <div className="tabs tabs-bordered bg-base-200 px-4 p-2">
-          <button 
+          <button
             className={`tab ${activeLeftTab === 'description' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('description')}
           >
             Description
           </button>
-          <button 
+          <button
             className={`tab ${activeLeftTab === 'editorial' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('editorial')}
           >
             Editorial
           </button>
-          <button 
+          <button
             className={`tab ${activeLeftTab === 'solutions' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('solutions')}
           >
             Solutions
           </button>
-          <button 
+          <button
             className={`tab ${activeLeftTab === 'submissions' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('submissions')}
           >
             Submissions
           </button>
 
-          <button 
+          <button
             className={`tab ${activeLeftTab === 'chatAI' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('chatAI')}
           >
@@ -210,7 +232,7 @@ const ProblemPage = () => {
                       {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
                     </div>
                     <div className="badge badge-primary">{problem.tags}</div>
-                  </div> 
+                  </div>
 
                   <div className="prose max-w-none">
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">
@@ -240,7 +262,7 @@ const ProblemPage = () => {
                 <div className="prose max-w-none">
                   <h2 className="text-xl font-bold mb-4">Editorial</h2>
                   <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                      <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration} />
+                    <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration} />
                   </div>
                 </div>
               )}
@@ -292,45 +314,45 @@ const ProblemPage = () => {
         {/* Right Tabs */}
         <div className="tabs justify-between tabs-bordered bg-base-200 p-2">
           <div>
-          <button 
-            className={`tab ${activeRightTab === 'code' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('code')}
-          >
-            Code
-          </button>
-          <button 
-            className={`tab ${activeRightTab === 'testcase' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('testcase')}
-          >
-            Testcase
-          </button>
-          <button 
-            className={`tab ${activeRightTab === 'result' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('result')}
-          >
-            Result
-          </button>
-        </div>
-
-        {/* User Profile */}
-          <div className="flex-none gap-4 ">
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} className="btn btn-ghost bg-yellow-600/90 text-white border-none btn-sm shadow-lg hover:scale-105 transition">
-              <CircleUser /> {user?.firstname}
-            </div>
-            <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-gray-700/50 rounded-box w-52 ">
-              <li><NavLink to="/profile" className="text-md">Profile</NavLink></li>
-              <li><button onClick={handleLogout} className="text-md">Logout</button></li>
-              {user?.role == 'admin' && <li ><NavLink to="/admin" className="text-lg">Admin</NavLink></li>}
-            </ul>
+            <button
+              className={`tab ${activeRightTab === 'code' ? 'tab-active' : ''}`}
+              onClick={() => setActiveRightTab('code')}
+            >
+              Code
+            </button>
+            <button
+              className={`tab ${activeRightTab === 'testcase' ? 'tab-active' : ''}`}
+              onClick={() => setActiveRightTab('testcase')}
+            >
+              Testcase
+            </button>
+            <button
+              className={`tab ${activeRightTab === 'result' ? 'tab-active' : ''}`}
+              onClick={() => setActiveRightTab('result')}
+            >
+              Result
+            </button>
           </div>
+
+          {/* User Profile */}
+          <div className="flex-none gap-4 ">
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} className="btn btn-ghost bg-yellow-600/90 text-white border-none btn-sm shadow-lg hover:scale-105 transition">
+                <CircleUser /> {user?.firstname}
+              </div>
+              <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-gray-700/50 rounded-box w-52 ">
+                <li><NavLink to="/profile" className="text-md">Profile</NavLink></li>
+                <li><button onClick={handleLogout} className="text-md">Logout</button></li>
+                {user?.role == 'admin' && <li ><NavLink to="/admin" className="text-md">Admin</NavLink></li>}
+              </ul>
+            </div>
+          </div>
+
+          {/* ----- */}
         </div>
 
-           {/* ----- */}
-        </div>
 
-       
-        
+
 
         {/* Right Content */}
         <div className="flex-1 flex flex-col">
@@ -354,7 +376,7 @@ const ProblemPage = () => {
               {/* Monaco Editor */}
               <div className="flex-1">
                 <Editor
-                 
+
                   height="100%"
                   language={getLanguageForMonaco(selectedLanguage)}
                   value={code}
@@ -362,7 +384,7 @@ const ProblemPage = () => {
                   onMount={handleEditorDidMount}
                   theme="vs-dark"
                   options={{
-                    fontSize: 14,
+                    fontSize: 16,
                     minimap: { enabled: false },
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
@@ -380,6 +402,8 @@ const ProblemPage = () => {
                     readOnly: false,
                     cursorStyle: 'line',
                     mouseWheelZoom: true,
+                    endOfLine: 0,  
+                    trimAutoWhitespace: true,  
                   }}
                 />
               </div>
@@ -387,7 +411,7 @@ const ProblemPage = () => {
               {/* Action Buttons */}
               <div className="p-4 border-t border-base-300 flex justify-between">
                 <div className="flex gap-2">
-                  <button 
+                  <button
                     className="btn btn-ghost btn-sm"
                     onClick={() => setActiveRightTab('testcase')}
                   >
@@ -418,14 +442,14 @@ const ProblemPage = () => {
             <div className="flex-1 p-4 overflow-y-auto">
               <h3 className="font-semibold mb-4">Test Results</h3>
               {runResult ? (
-                <div className={`alert ${runResult.success ? "bg-green-500 border-green-500" : 'bg-red-500 border-red-500'} mb-4`}>
+                <div className={`alert ${runResult.success ? "bg-green-500 border-green-500" : 'bg-red-700 border-red-700'} mb-4`}>
                   <div>
                     {runResult.success ? (
                       <div>
                         <h4 className="font-bold">✅ All test cases passed!</h4>
-                        <p className="text-sm mt-2">Runtime: {runResult.runtime+ " sec"}</p>
-                        <p className="text-sm">Memory: {runResult.memory+" KB"}</p>
-                        
+                        <p className="text-sm mt-2">Runtime: {runResult.runtime + " sec"}</p>
+                        <p className="text-sm">Memory: {runResult.memory + " KB"}</p>
+
                         <div className="mt-4 space-y-2">
                           {runResult.testCases.map((tc, i) => (
                             <div key={i} className="bg-base-100 p-3 rounded text-xs">
@@ -442,30 +466,29 @@ const ProblemPage = () => {
                         </div>
                       </div>
                     ) : (
-                       runResult.error =="Internal server error" ? (
+                      runResult.error == "Internal server error" ? (
                         <div>
-                          <h4 className="font-bold">❌ Error: {runResult.error}</h4>
+                          <h4 className="font-bold">❌ Error: {runResult.errorMessage}</h4>
                         </div>
-                      ) :(
-                      <div> 
-                        <h4 className="font-bold">❌ Error</h4>
-                        <div className="mt-4 space-y-2">
-                          {console.log("runResult", runResult)}
-                          {runResult.testCases?.map((tc, i) => (
-                            <div key={i} className="bg-base-100 p-3 rounded text-xs">
-                              <div className="font-mono">
-                                <div><strong>Input:</strong> {tc.stdin}</div>
-                                <div><strong>Expected:</strong> {tc.expected_output}</div>
-                                <div><strong>Output:</strong> {tc.stdout}</div>
-                                <div className={tc.status_id==3 ? 'text-green-600' : 'text-red-600'}>
-                                  {tc.status_id==3 ? '✓ Passed' : '✗ Failed'}
+                      ) : (
+                        <div>
+                          <h4 className="">❌{runResult.errorMessage !=null ? `Error: ${runResult.errorMessage}` : "Wrong Answer"}</h4>
+                          <div className="mt-4 space-y-2">
+                            {runResult.testCases?.map((tc, i) => (
+                              <div key={i} className="bg-base-100 p-3 rounded text-xs">
+                                <div className="font-mono">
+                                  <div><strong>Input:</strong> {tc.stdin}</div>
+                                  <div><strong>Expected:</strong> {tc.expected_output}</div>
+                                  <div><strong>Output:</strong> {tc.stdout}</div>
+                                  <div className={tc.status_id == 3 ? 'text-green-600' : 'text-red-700'}>
+                                    {tc.status_id == 3 ? '✓ Passed' : '✗ Failed'}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               ) : (
@@ -480,11 +503,10 @@ const ProblemPage = () => {
             <div className="flex-1 p-4 overflow-y-auto">
               <h3 className="font-semibold mb-4">Submission Result</h3>
               {submitResult ? (
-                <div className={`alert font-semibold text-white ${
-    submitResult.accepted
-      ? "bg-green-500 border-green-500"
-      : "bg-red-500 border-red-500"
-  }`}>
+                <div className={`alert font-semibold text-white ${submitResult.accepted
+                    ? "bg-green-500 border-green-500"
+                    : "bg-red-700 border-red-700"
+                  }`}>
                   <div>
                     {submitResult.accepted ? (
                       <div>
@@ -507,8 +529,8 @@ const ProblemPage = () => {
                 </div>
               ) : (
                 <div className="text-gray-500">
-                     <div className="font-bold">No submission result yet.</div>
-                     <p>Click "Submit" to evaluate your code against all test cases.</p>
+                  <div className="font-bold">No submission result yet.</div>
+                  <p>Click "Submit" to evaluate your code against all test cases.</p>
 
                 </div>
               )}
