@@ -23,16 +23,19 @@ Coding Zone is a modern coding practice platform where developers can solve prob
 ## 🖼️ Screenshots
 
 > 
+<img width="1912" height="888" alt="Screenshot 2026-02-16 130826" src="https://github.com/user-attachments/assets/d3f2f8c2-7ec6-44d7-9dbe-4c8c8f3f3f2e" />
+<img width="1908" height="871" alt="Screenshot 2026-02-16 130839" src="https://github.com/user-attachments/assets/0d3f5863-f04e-46d4-bfce-c96c65100908" />
+<img width="1916" height="934" alt="Screenshot 2026-02-16 130945" src="https://github.com/user-attachments/assets/fbba5ace-8387-4938-977a-7f2dab3d8f59" />
+<img width="1919" height="870" alt="Screenshot 2026-02-16 131057" src="https://github.com/user-attachments/assets/9f4be33f-5382-4921-b722-4517a7c27c05" />
+<img width="1919" height="875" alt="Screenshot 2026-02-16 131114" src="https://github.com/user-attachments/assets/61ff2e23-2f6c-4b40-bac8-c39ec91e67dd" />
+<img width="1919" height="877" alt="Screenshot 2026-02-16 131123" src="https://github.com/user-attachments/assets/f5d607d1-5053-463f-acf1-a0a0f3325fdc" />
+<img width="935" height="847" alt="Screenshot 2026-02-16 131134" src="https://github.com/user-attachments/assets/d0d4653e-bc97-4d7a-b3f3-ded99c73bd36" />
+<img width="1919" height="867" alt="Screenshot 2026-02-16 131148" src="https://github.com/user-attachments/assets/62edca6e-d784-4423-ba63-ef58f44814a2" />
+<img width="1919" height="883" alt="Screenshot 2026-02-16 131201" src="https://github.com/user-attachments/assets/4eabddc0-1f15-4513-b823-92536862a501" />
+<img width="1913" height="891" alt="Screenshot 2026-02-16 131217" src="https://github.com/user-attachments/assets/d8896d5e-f17b-4399-ad90-c0b834477eac" />
+<img width="1905" height="887" alt="Screenshot 2026-02-16 131318" src="https://github.com/user-attachments/assets/7f2e01ba-53db-45f1-b566-754c71a583bc" />
 
 ---
-<img width="1919" height="884" alt="Screenshot 2026-02-15 211519" src="https://github.com/user-attachments/assets/31b2f9b5-2af4-4dbb-b055-48b067caadf9" />
-<img width="1919" height="885" alt="Screenshot 2026-02-15 211531" src="https://github.com/user-attachments/assets/07c4c0f3-2ba8-47f4-9cb3-3c7655948135" />
-<img width="1919" height="908" alt="Screenshot 2026-02-15 211600" src="https://github.com/user-attachments/assets/f069bdd6-3d32-41cc-a3fd-8e8ee2af4932" />
-<img width="1919" height="870" alt="Screenshot 2026-02-15 211548" src="https://github.com/user-attachments/assets/5a21ee92-4b5a-4357-a92a-f9b9a7994132" />
-<img width="974" height="865" alt="Screenshot 2026-02-15 212036" src="https://github.com/user-attachments/assets/0d55591b-18bc-4891-8e32-c81106b3090b" />
-<img width="954" height="855" alt="Screenshot 2026-02-15 212105" src="https://github.com/user-attachments/assets/105cc8a1-cfbe-47e4-9458-92a86b4cd21e" />
-<img width="1914" height="871" alt="Screenshot 2026-02-15 212158" src="https://github.com/user-attachments/assets/7d4a2e8c-b405-4fae-a1b9-b9d874732ea3" />
-<img width="1906" height="852" alt="Screenshot 2026-02-15 212218" src="https://github.com/user-attachments/assets/0f886bfd-ef44-4324-b59d-4ff058cc39b3" />
 
 ## 🏗️ Tech Stack
 
