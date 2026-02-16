@@ -27,6 +27,7 @@ Coding Zone is a modern coding practice platform where developers can solve prob
 ---
 <img width="1919" height="884" alt="Screenshot 2026-02-15 211519" src="https://github.com/user-attachments/assets/31b2f9b5-2af4-4dbb-b055-48b067caadf9" />
 <img width="1919" height="885" alt="Screenshot 2026-02-15 211531" src="https://github.com/user-attachments/assets/07c4c0f3-2ba8-47f4-9cb3-3c7655948135" />
+<img width="1919" height="908" alt="Screenshot 2026-02-15 211600" src="https://github.com/user-attachments/assets/f069bdd6-3d32-41cc-a3fd-8e8ee2af4932" />
 <img width="1919" height="870" alt="Screenshot 2026-02-15 211548" src="https://github.com/user-attachments/assets/5a21ee92-4b5a-4357-a92a-f9b9a7994132" />
 <img width="974" height="865" alt="Screenshot 2026-02-15 212036" src="https://github.com/user-attachments/assets/0d55591b-18bc-4891-8e32-c81106b3090b" />
 <img width="954" height="855" alt="Screenshot 2026-02-15 212105" src="https://github.com/user-attachments/assets/105cc8a1-cfbe-47e4-9458-92a86b4cd21e" />
