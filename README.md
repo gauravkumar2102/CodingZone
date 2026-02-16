@@ -113,7 +113,7 @@ Messages are delivered to the developer via email using Nodemailer.
 Full Stack Developer
 
 * GitHub: https://github.com/gauravkumar2102
-* LinkedIn: https://linkedin.com/in/YOUR_LINKEDIN
+* LinkedIn: www.linkedin.com/in/gaurav-kumar-b7990b1aa
 
 ---
 
