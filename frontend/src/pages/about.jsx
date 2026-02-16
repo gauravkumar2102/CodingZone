@@ -51,7 +51,7 @@ function AboutPage() {
             {/* ⭐ Navbar (Same Theme) */}
             <nav className="navbar bg-gray-600/50 sticky top-0 backdrop-blur-md border-b border-base-300/30 shadow-lg px-4 z-50">
                 <div className="flex-1">
-                    <NavLink to="/" className="btn btn-ghost text-2xl">
+                    <NavLink to="/" className="btn btn-ghost text-xl font-bold">
                         <Codesandbox size={38} color="#bea60e" />
                         Coding Zone
                     </NavLink>
