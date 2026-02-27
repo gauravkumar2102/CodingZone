@@ -14,16 +14,18 @@ import mailUsRoute from './Routes/mailUsRoute.js';
 
 
 dotenv.config();
+app.use(cors({
+    origin: 'https://coding-zone-eta.vercel.app',
+    credentials: true 
+}))
+
 const app = express();
 
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-    origin: 'https://coding-zone-eta.vercel.app',
-    credentials: true 
-}))
+
 
  
 const Intialization = async () => { 
