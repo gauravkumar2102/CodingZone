@@ -108,7 +108,7 @@ function AboutPage() {
 
                         <div className="flex gap-3 mt-4">
                             <a
-                                href="https://github.com/gauravkumar210"
+                                href="https://github.com/gauravkumar2102"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="btn btn-sm bg-gray-800 text-white border-none"
