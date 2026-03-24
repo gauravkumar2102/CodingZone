@@ -7,7 +7,7 @@ LIVE LINK - https://coding-zone-eta.vercel.app
 
 ## ✨ Features
 
-* 🧠 Practice coding problems with multiple difficulty levels
+* 🧠 Practice coding problems with multiple difficulty levels 
 * ⚡ Real-time code execution and instant output testing
 * 🤖 AI Assistant to help users understand problems and guide solutions
 * 🎥 Video Editorials available for better concept understanding
